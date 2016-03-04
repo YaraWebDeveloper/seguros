@@ -51,7 +51,7 @@ class Login_model extends CI_Model {
                 . 'AND usuario.est_id = 1';
 
         //preparo el select
-        $this->db->select('usu_id, usu_nombre, usu_apellido, usu_correo, usuario_rol.usu_rol_id, usu_foto');
+        $this->db->select('usuario.usu_id, usu_nombre, usu_apellido, usu_correo, usuario_rol.usu_rol_id, usu_foto');
         //preparo el join
         $this->db->join('usuario_rol', 'usuario_rol.usu_rol_id = usuario.usu_rol_id');
         //ejecuto la consulta de los datos del usuario
