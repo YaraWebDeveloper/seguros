@@ -1,0 +1,59 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 8/04/2015, 08:24:58 PM
+    Author     : Fernando
+*/
+
+.small-box h3 {
+    font-size: 25px !important;
+    margin: 0 0 10px 0 !important;
+}
+.small-box .icon {
+    font-size: 70px !important;
+    bottom: 15px !important;
+}
+.small-box {
+    padding: 0px 0 0 0 !important;
+}
+
+.small-box:hover .icon {
+    animation-name: tansformAnimation;
+    animation-duration: .5s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+    -webkit-animation-name: tansformAnimation;
+    -webkit-animation-duration: .5s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: ease;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-name: tansformAnimation;
+    -moz-animation-duration: .5s;
+    -moz-animation-iteration-count: 1;
+    -moz-animation-timing-function: ease;
+    -moz-animation-fill-mode: forwards;
+}
+@keyframes tansformAnimation {
+    from {
+        font-size: 70px;
+    }
+    to {
+        font-size: 80px;
+    }
+}
+@-webkit-keyframes tansformAnimation {
+    from {
+        font-size: 70px;
+    }
+    to {
+        font-size: 80px;
+    }
+}
+
+.no-print{
+    display: none !important;
+}

@@ -1,0 +1,41 @@
+//mixins
+@import url(Colores.less);
+@import url(Fonts.less);
+@import url(Sizes.less);
+
+//mixins
+.DivGeneral(@height: @General, @width: @General){
+    width: @width;
+    height: @height;
+}
+.Background(@back: @transparent,@b_attach: @inherit, @pos_x: @null, @pos_y: @null, @repeat: @no-repeat){
+    background: @back @pos_x @pos_y @repeat;
+    background-attachment: @b_attach;
+}
+.BRadius(@Radius: @null){
+    -webkit-border-radius: @Radius;
+    -moz-border-radius: @Radius;
+    border-radius: @Radius;
+}
+.Font(@Fsize: @font_size, @color: @white_gn, @Wg: @normal, @font_family: @Walkaway){
+    font-family: @font_family;
+    font-size: @Fsize;
+    font-weight: @Wg;
+    color: @color;
+}
+.DivCenter(){
+    margin: 0 auto;
+}
+.Animation(@object: @all,@time: @sec,@function: @easy){
+    -webkit-transition: @object @time @easy;
+    -moz-transition: @object @time @easy;
+    -o-transition: @object @time @easy;
+    transition: @object @time @easy;
+}
+.Rotate(@rotate: @r_null){
+    -webkit-transform: rotate(@rotate);
+    -moz-transform: rotate(@rotate);
+    -ms-transform: rotate(@rotate);
+    -o-transform: rotate(@rotate);
+    transform: rotate(@rotate);
+}

@@ -1,0 +1,14 @@
+Accesorio||accesorio||
+Adm. Usuarios||usuarios||
+Empresas||empresas||
+Tipo Documento||tipodocumento||accesorio
+Tipo Empresa||tipoempresa||accesorio
+Tipo Equipo||tipoequipo||accesorio
+Tipo Periferico||tipoperiferico||accesorio
+Tipo Software||tiposoftware||accesorio
+Prioridad Ticket||prioridadticket||accesorio
+Marca||marca||accesorio
+Usuarios||usuario||usuarios
+Rol||rol||usuarios
+Permiso Rol||permisorol||usuario
+Empresa||empresa||empresas

@@ -1,0 +1,59 @@
+//imports
+@import url(Colores.less);
+@import url(Fonts.less);
+@import url(Sizes.less);
+@import url(Mixins.less);
+
+@media only screen and (min-width: 1200px){
+    .wrap_center {
+        padding: 8em 0 9em 0;
+    }
+}
+@media only screen and (max-width: 1199px){
+    .wrap_center {
+        padding: 5em 0 5em 0;
+    }
+    .Content {
+        margin-top: 26em;
+    }
+    .Welcome{ 
+        h1{
+            .Font(3.5em);
+        }
+        h2{
+            .Font(3.5em);
+        }
+    }
+    .contenido_wp{
+        .DivGeneral(@auto, 43%);
+        margin: 0;
+    }
+}
+@media only screen and (max-width: 1000px){
+    .contenido_wp{
+        .DivGeneral(@auto, 40%);
+        margin: 1em;
+        margin-top: 2em;
+        h2{
+            .Font(1.5em, @gray_tx);
+            text-transform: uppercase;
+        }
+        p{
+            .Font(1em, @gray_tx);
+        }
+    }
+    .t_wraper{
+        .h1{
+            .Font(3.5em, @white_gn);
+            margin-bottom: 4px;
+            line-height: 1;
+            display: inline-block;
+        }
+        h2{
+            .Font(1.5em, @white_gn);
+            margin-bottom: 4px;
+            line-height: 1;
+            display: inline-block;
+        }
+    }
+}

@@ -1,0 +1,413 @@
+//import assets
+@import url(Colores.less);
+@import url(Fonts.less);
+@import url(Sizes.less);
+@import url(Mixins.less);
+
+//Less
+*::-moz-selection{
+    background: @green_bar;
+    color: @white_gn
+}
+*::selection{
+    background: @green_bar;
+    color: @white_gn
+}
+a{
+    text-decoration: @none;
+}
+body{
+    text-align: center;
+}
+.h1{
+    .Font(2.75em, @gray_tx);
+}
+.h2{
+    .Font(2em, @gray_tx);
+}
+.h3{
+    .Font(1.5em, @gray_tx);
+}
+#Content{
+    .DivGeneral();
+    .Background(@gray_gn);
+    position: @absolute;
+    top: @null;
+    left: @null;
+}
+.Principal{
+    .DivGeneral(@auto, @General);
+    .Background(@white_gn);
+    position: @fixed;
+    z-index: @z-index-a;
+}
+.Center{
+    .DivCenter();
+}
+.blue{
+    color: @blue_bc;
+}
+.Logo{
+    .DivGeneral(@auto, 20em);
+    .logo{
+        width: 100%
+    }
+}
+.Intro{
+    .DivGeneral(@auto, @General);
+    padding: 1em 1em 1em 1em;
+}
+.separator{
+    .DivGeneral(.7em);
+    .Background(url(../..//img/separador.png), @inherit, @null, @null, repeat-x);
+}
+.Social{
+    .DivGeneral(@auto, 50px);
+    float: right;
+    margin-top: 1em;
+
+    .icon{
+        .DivGeneral(50px, 50px);
+        margin-top: 5px;
+        .Animation(@all, .5s, @fade);
+    }
+    .facebook{
+        .Background(url(../..//img/sprite_social.png), @inherit, 0, 0);
+    }
+    .facebook:hover{
+        .Background(url(../..//img/sprite_social.png), @inherit, 0, -100px);
+    }
+    .twitter{
+        .Background(url(../..//img/sprite_social.png), @inherit, 0, -400px);
+    }
+    .twitter:hover{
+        .Background(url(../..//img/sprite_social.png), @inherit, 0, -500px);
+    }
+    .google{
+        .Background(url(../..//img/sprite_social.png), @inherit, 0, -200px);
+    }
+    .google:hover{
+        .Background(url(../..//img/sprite_social.png), @inherit, 0, -300px);
+    }
+}
+.Content{
+    .DivGeneral(@auto, @General);
+    .Background(@white_gn);
+    position: @absolute;
+    z-index: @z-index-b;
+    margin-top: 23em;
+
+    .Main_Bar{
+        .DivGeneral(4em);
+        .Background(@gray_bar);
+        .Animation(@all, .5s, @fade);
+    }
+    .MenuFixed{
+        position: @fixed;
+        top: 0;
+        box-shadow: 0px 1px 4px 0px #333333;
+        filter:alpha(opacity=25);
+        opacity: .5;
+        -moz-opacity: .25;
+        z-index: @z-index-b;
+    }
+    .MenuFixed:hover{
+        filter:alpha(opacity=1);
+        opacity: 1;
+        -moz-opacity: 1;
+    }
+}
+.option_menu{
+    .DivGeneral(@auto, @auto);
+    position: @relative;
+    float: right;
+    padding: .7em 1.7em .5em 1.7em;
+    .Animation(@all, .5s, @fade);
+}
+.option_menu:hover{
+    padding: .2em 1.7em .5em 1.7em;
+    border-bottom: 1px solid @gray_tx;
+}
+.login{
+    .Background(@green_bar);
+    float: left;
+    .DivGeneral(@auto, @auto);
+    position: @relative;
+    .Font(1.5em, @gray_tx);
+    padding: .8em 1em .8em 1em;
+    .Animation(@all, .5s, @fade);
+}
+.login:before{
+    content: url(../..//img/login_1.png);
+    .Animation(@all, .5s, @fade);
+}
+.login:hover{
+    .Background(@blue_fb);
+    color: @white_gn;
+    cursor: pointer;
+}
+.login:hover:before{
+    content: url(../..//img/login_2.png);
+}
+.wrap_center{
+    .Background(url(../..//img/pi_back.jpg));
+    background-size: 100% auto;
+}
+.Welcome{ 
+    .DivGeneral(@auto, @auto);
+    h1{
+        .Font(4em);
+        margin-bottom: 4px;
+        line-height: 1;
+    }
+    h2{
+        .Font(3.5em);
+        margin: 0;
+    }
+    h1,h2{
+        background: #000;
+        background: rgba(0,0,0,0.65);
+        display: inline-block;
+        color: #fff;
+        padding: 10px 20px;
+        .BRadius(4px);
+    }
+}
+.log_wrap{
+    display: @none;
+    position: absolute;
+    .DivGeneral(@auto, 300px);
+    .Background(@green_bar);
+    margin-top: 4em;
+    padding-bottom: 2em;
+}
+.input{
+    margin: 1em auto 0 auto;
+    .Font(1.7em, @gray_tx);
+    text-indent: .5em;
+    border-style: none;
+}
+.txt_input_c{
+    .DivGeneral(1.8em, 70%);
+    max-width: 70%;
+    max-height: 5em;
+}
+.botton_input{
+    .Font(1.7em, @gray_tx);
+    border-style: none;
+    padding: .1em 1em;
+    cursor: pointer;
+}
+.txt_input{
+    .DivGeneral(1.5em, @auto);
+}
+.Contenido{
+    padding: 5em 0 3em 0;
+}
+.contenido{
+    .DivCenter();
+}
+.Content_1{
+    .Background(@white_gn);
+    .h1{
+        .Font(4em, @gray_tx);
+        margin-bottom: 4px;
+        line-height: 1;
+        display: inline-block;
+    }
+    h2{
+        .Font(2.3em, @gray_tx);
+        margin-bottom: 4px;
+        line-height: 1;
+        display: inline-block;
+    }
+}
+.Content_2{
+    .Background(@blue_bc);
+}
+.Content_3{
+    .DivGeneral(30em);
+    .Background(@orange_bc);
+}
+.contenido_cc{
+    .DivGeneral(@auto, 50%);
+    .input{
+        .BRadius(.1em);
+    }
+    h2{
+        .Font(2em);
+    }
+    .botton_input{
+        .Background(@orange_bc);
+        color: @white_gn;
+        border: 2px solid @white_gn;
+        text-indent: 0em;
+    }
+    textarea{
+        .Font(1.5em, @gray_tx);
+        min-height: 3em;
+    }
+}
+.fb{
+    .Background(@blue_fb);
+}
+.t_wraper{
+    max-width: 56.25em;
+    margin: 0 auto 4.375em;
+    .h1{
+        .Font(3.7em, @white_gn);
+        margin-bottom: 4px;
+        line-height: 1;
+        display: inline-block;
+    }
+    h2{
+        .Font(2em, @white_gn);
+        margin-bottom: 4px;
+        line-height: 1;
+        display: inline-block;
+    }
+}
+.l-timeline {
+    margin-bottom: 3.75em;
+    position: relative;
+    padding: 0 1.25em;
+    z-index: @z-index-a;
+    .h4{
+        .Font(2em, @white_gn);
+        margin-bottom: 4px;
+        line-height: 1;
+        display: inline-block;
+    }
+    p{
+        .Font(1.2em, @white_gn);
+    }
+}
+.c-wrapper {
+    max-width: 100em;
+    margin: 0 auto;
+    text-align: center;
+}
+.l-main {
+    position: relative;
+    .line {
+        border: none;
+        border-top: 2px dotted #fff;
+        position: relative;
+        top: 6.25em;
+    }
+}
+.l-timeline-event {
+    width: 12.5em;
+    .Center();
+}
+.box{
+    .DivGeneral(12.5em, @General);
+    position: relative;
+    margin-bottom: 3.125em;
+    .Animation();
+}
+.triangle{
+    width: 1.875em;
+    height: 1.875em;
+    left: 50%;
+    margin-left: -15px;
+    background-color: #bbd8f7;
+    position: absolute;
+    bottom: -10px;
+    .Rotate(45deg);
+    .Animation();
+}
+.web:hover {
+    background: url(../..//img/gadget/web/web_blue.png) 50% 50% no-repeat,#fff;
+    background-size: 60% 60%;
+    .Animation();
+    .triangle{
+        .Background(@white_gn);
+    }
+}
+.web{
+    background: url(../..//img/gadget/web/web_blue.png) 50% 50% no-repeat,#bbd8f7;
+    background-size: 70% 70%;
+    .Animation();
+}
+.idea:hover {
+    background: url(../..//img/gadget/Idea/idea_blue.png) 50% 50% no-repeat,#fff;
+    background-size: 60% 60%;
+    .Animation();
+    .triangle{
+        .Background(@white_gn);
+    }
+}
+.idea{
+    background: url(../..//img/gadget/Idea/idea_blue.png) 50% 50% no-repeat,#bbd8f7;
+    background-size: 70% 70%;
+    .Animation();
+}
+.problem:hover {
+    background: url(../..//img/gadget/problem/problem_blue.png) 50% 50% no-repeat,#fff;
+    background-size: 70% 70%;
+    .Animation();
+    .triangle{
+        .Background(@white_gn);
+    }
+}
+.problem{
+    background: url(../..//img/gadget/problem/problem_blue.png) 50% 50% no-repeat,#bbd8f7;
+    background-size: 80% 80%;
+    .Animation();
+}
+.right{
+    float: right;
+}
+.left{
+    float: left;
+}
+.contenido_wp{
+    .DivGeneral(@auto, 41%);
+    margin: 4em 2em 2em 2em;
+    .icon_contenido{
+        .DivGeneral(80px, 80px);
+    }
+    h2{
+        .Font(2em, @gray_tx);
+        text-transform: uppercase;
+    }
+    p{
+        .Font(1.5em, @gray_tx);
+    }
+}
+.available{
+    .Background(url(../..//img/img_test/PC_min.png));
+}
+.book{
+    .Background(url(../..//img/img_test/book_min.png));
+}
+.history{
+    .Background(url(../..//img/img_test/history_min.png));
+}
+.smile{
+    .Background(url(../..//img/img_test/smile_min.png));
+}
+.footer{
+    padding-top: 1em;
+    padding-bottom: 1em;
+    .Background(@gray_gn);
+    h1{
+        .Font(1.3em);
+        .poli{
+            .Font(1.2em, @blue_gt);  
+        }
+    }
+    h2{
+        .Font(1em);
+    }
+    h3{
+        .Font(.9em);
+        .twitter{
+            .Font(1.2em, @blue_tw);  
+        }
+        .gp{
+            .Font(1.2em, @red_gp);  
+        }
+    }
+}
