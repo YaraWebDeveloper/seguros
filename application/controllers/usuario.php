@@ -43,6 +43,7 @@ class Usuario extends Private_Controller {
         if ($dataRoles == NULL):
             $pMensaje .= 'No puedes crear Usuarios sin asignar permisos a un rol. <a href="' . base_url("/permisorol") . '"> Click aqui para hacerlo</a>';
         endif;
+        //obtener empresas
 
         if ($dataRoles == NULL) :
 
@@ -65,10 +66,11 @@ class Usuario extends Private_Controller {
             'Action' => $dataAction,
             'editar' => 0,
             'Registros' => $dataRegistros,
+            'valorUsername' => NULL,
             'valorNombre' => NULL,
             'valorApellido' => NULL,
             'valorUser' => NULL,
-            'valorCedula' => NULL,
+            'valorIdentificacion' => NULL,
             'valorCelular' => NULL,
             'valorTelefono' => NULL,
             'valorCorreo' => NULL,
@@ -77,8 +79,8 @@ class Usuario extends Private_Controller {
             'dataCiudad' => NULL,
             'valorRolUsuario' => NULL,
             'dataRolUsuario' => $dataRoles,
-            'valorTipoDoc' => NULL,
-            'dataTipoDoc' => $this->obtenerTipoDocumento(),
+            'valorEmpresa' => NULL,
+            'dataEmpresa' => $dataRoles,
             'valorEstado' => NULL,
             'valorMensaje' => $pMensaje['mensaje'],
             'valorTipoMensaje' => $pMensaje['tipo']
@@ -234,7 +236,7 @@ class Usuario extends Private_Controller {
      * -----------------------------------------------------------------------
      */
     public function crearUsuario() {
-        $this->controlarAcceso('post', 'guardar');
+        //$this->controlarAcceso('post', 'guardar');
         if ($this->validarControles('guardar', 1)) :
             //creo el data insert
             $dataInsert = array(

@@ -53,7 +53,7 @@ class Crud_model extends CI_Model {
 
 //fin del metodo
 
-    
+
     /*
      * -------------------------------------------------------
      *  Método para obtener registros con metodos 
@@ -63,34 +63,50 @@ class Crud_model extends CI_Model {
 
     public function obtenerRegistrosFull($pDataQuery) {
         //verifico el parámetro para preparar la consulta SELECT
-        if ($pDataQuery["dataColumns"] != NULL) :
+        if (isset($pDataQuery["dataColumns"])) :
             $this->db->select($pDataQuery["dataColumns"]);
         endif;
         //verifico el parámetro para preparar la consulta WHERE
-        if ($pDataQuery["dataWhere"] != NULL) :
+        if (isset($pDataQuery["dataWhere"])) :
             $this->db->where($pDataQuery["dataWhere"]);
         endif;
+        //verifico el parámetro para preparar la consulta WHERE en linea
+        if (isset($pDataQuery["dataWhereLine"])) :
+            $this->db->where($pDataQuery["dataWhereLine"]);
+        endif;
         //si hay valor de arrayWhereOr realizo preparo la condicionale orWhere
-        if ($pDataQuery['dataWhereOr'] != NULL):
+        if (isset($pDataQuery['dataWhereOr'])):
             $this->db->or_where($pDataQuery['dataWhereOr']);
         endif;
-        //si hay valor de order by, se incluyen todos en una cadena separados por comas
-        //ejemplo "usuario desc, id asc"
-        if ($pDataQuery['dataOrder'] != NULL):
-            $this->db->order_by($pDataQuery['dataOrder']); 
-        endif;
         //si hay valor de group by se agrega a la consulta
-        if ($pDataQuery['dataGroupBy'] != NULL):
-           $this->db->group_by($pDataQuery['dataGroupBy']);  
+        if (isset($pDataQuery['dataGroupBy'])):
+            $this->db->group_by($pDataQuery['dataGroupBy']);
         endif;
         //si hay valor de order
-        if ($pDataQuery['dataOrder'] != NULL):
-            $this->db->order_by($pDataQuery['dataOrder']); 
+        if (isset($pDataQuery['dataOrder'])):
+            $this->db->order_by($pDataQuery['dataOrder']);
+        endif;
+        //si hay valor de order
+        if (isset($pDataQuery['dataLimit'])):
+            if (is_array($pDataQuery['dataLimit'])):
+                $sqlRegistros = $this->db->limit($pDataQuery['dataLimit'][0], $pDataQuery['dataLimit'][1]);
+            else:
+                $sqlRegistros = $this->db->limit($pDataQuery['dataLimit']);
+            endif;
         endif;
         //si hay un valor en dataJoin se incluye en la consulta
-        if($pDataQuery['dataJoin'] != NULL):
-            $this->db->join($pDataQuery['dataJoin']['table'], $pDataQuery['dataJoin']['compare'], $pDataQuery['dataJoin']['method']);
-        endif;        
+        if (isset($pDataQuery['dataJoin'])):
+            //detecto si el arreglo es sencillo o compuesto
+            if (isset($pDataQuery['dataJoin']['table'])):
+                //caso sencillo
+                $this->db->join($pDataQuery['dataJoin']['table'], $pDataQuery['dataJoin']['compare'], $pDataQuery['dataJoin']['method']);
+            else:
+                // caso compuesto itero los join
+                foreach ($pDataQuery['dataJoin'] as $itemJoin):
+                    $this->db->join($itemJoin['table'], $itemJoin['compare'], $itemJoin['method']);
+                endforeach;
+            endif;
+        endif;
         //realizo la consulta 
         $sqlRegistros = $this->db->get($pDataQuery['dataTable']);
         //validamos si existen registros
@@ -105,12 +121,12 @@ class Crud_model extends CI_Model {
             $dataRegistro = null;
         endif;
         //devolvemos la data
-        return $dataRegistro;   
+        return $dataRegistro;
     }
 
 //fin del metodo    
-    
-    
+
+
     /*
      * -------------------------------------------------------
      *  Método para obtener solo un registro y dada la necesidad
@@ -122,24 +138,24 @@ class Crud_model extends CI_Model {
         //creo la variable de retorno y le aignamos true
         $valorRetorno = TRUE;
         //si hay valor de arrayWhere realizo preparo la condicionale where
-        if($pDataQuery['dataWhere'] != NULL):
-            $this->db->where($pDataQuery['dataWhere']); 
+        if ($pDataQuery['dataWhere'] != NULL):
+            $this->db->where($pDataQuery['dataWhere']);
         endif;
         //si hay valor de arrayWhereOr realizo preparo la condicionale orWhere
-        if($pDataQuery['dataWhereOr'] != NULL):
-            $this->db->or_where($pDataQuery['dataWhereOr']); 
+        if ($pDataQuery['dataWhereOr'] != NULL):
+            $this->db->or_where($pDataQuery['dataWhereOr']);
         endif;
         //definimos la variable para el select campos a seleccionar
         $columns = "*";
         //si llega un valor para seleccionar cambiamos el valor de $columns
-        if($pDataQuery['dataColumns'] != NULL):
+        if ($pDataQuery['dataColumns'] != NULL):
             $columns = $pDataQuery['dataColumns'];
             //asignamos el valor al select
             $this->db->select($columns);
         endif;
         //preparo la sentencia sql y obtengo los datos
         $sqlConsulta = $this->db->get($pDataQuery['dataTable'], 1, 0);
-        
+
         //validamos si existen registros
         if ($sqlConsulta->num_rows() > 0):
             //validamos si se solicita el objeto
@@ -189,24 +205,24 @@ class Crud_model extends CI_Model {
         $actualizar = $this->db->where($pArrayWhere);
         return $actualizar = $this->db->update($pTabla, $pArrayActualizar);
     }
-    
-    
-     /*
+
+    /*
      * -------------------------------------------------------
      *  Método para agregar registros multiples 
      * ------------------------------------------------------- 
      */
-    public function agregarRegistroMultiple( $pTabla, $pArrayInsert){
+
+    public function agregarRegistroMultiple($pTabla, $pArrayInsert) {
         //creo la variable de retorno
         $valorRetorno = null;
         //ejecuto la inserción
-        $valorRetorno =  $this->db->insert_batch( $pTabla, $pArrayInsert );
-                
+        $valorRetorno = $this->db->insert_batch($pTabla, $pArrayInsert);
+
         //devolvemos la variable de retorno
         return $valorRetorno;
-       
-    }//fin del médoto
+    }
 
+//fin del médoto
 //fin del médoto    
 }
 

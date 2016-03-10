@@ -102,7 +102,9 @@ if (!function_exists('controlInput')) {
             'maxlength' => $pMaxLength,
             'placeholder' => $pPlaceHolder,
             'placeholder' => $pPlaceHolder,
-            'autocomplete' => 'off'
+            'autocomplete' => 'off',
+            'cols' => '10', 
+            'rows' => '0'
         );
         if ($pDisabled):
             $valorAdicional = array(
