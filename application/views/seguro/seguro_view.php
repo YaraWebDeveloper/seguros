@@ -1,24 +1,56 @@
 <?php
 echo $header;
-//formulario
-$dataTomador = controlInput('emp_nombre', strtoupper($this->dataTomador[0]->emp_nombre), 'Tomador', 'form-control disabled', TRUE);
-$dataNit = controlInput('emp_nit', strtoupper($this->dataTomador[0]->emp_nit), 'Nit', 'form-control disabled', TRUE);
-$dataDireccion = controlInput('emp_direccion', strtoupper($this->dataTomador[0]->emp_direccion), 'Direccion', 'form-control disabled', TRUE);
-$dataAseguradora = controlInput('aseguradora', strtoupper($this->dataAsegurador[0]->par_value), 'Tomador', 'form-control disabled number', TRUE);
-$dataGenerador = controlInput('generador', strtoupper($this->dataUsuario[0]->usu_nombre . " " . $this->dataUsuario[0]->usu_apellido), 'Tomador', 'form-control disabled', TRUE);
+//Title box 1, caso si es generadora
+$dataTitleBx1 = 'Generadora';
+$dataTitleBx2 = 'Transportadora';
+//CAmpos del bpox 1
+$dataNombre = $this->dataEmpresa[0]->emp_nombre;
+$dataValNit = $this->dataEmpresa[0]->emp_nit;
+$dataDirecc = $this->dataEmpresa[0]->emp_direccion;
+
+//Datos de la empresa sobrante
+$dataEmp = $this->empTranspor;
+$dataName = 'emp_id_tran';
+
+
+if ($this->dataEmpresa[0]->tip_seg_id == 3):
+    $dataName = 'emp_id_gen';
+    $dataEmp = $this->empGene;
+    $dataTitleBx1 = 'Transportadora';
+    $dataTitleBx2 = 'Generadora';
+endif;
+
+
+//VAlores no editables
+//transportadora
+$dataEmpR = form_dropdown($dataName, controlSelect($dataEmp, 'emp_id', 'emp_nombre'), NULL, 'class="form-control"');
+$dataInpNom = controlInput('', $dataNombre, 'Nit', 'form-control disabled', TRUE);
+$dataNit = controlInput('', $dataValNit, 'Nit', 'form-control disabled', TRUE);
+$dataDireccion = controlInput('', $dataDirecc, 'Direccion', 'form-control disabled', TRUE);
+$dataTomador = controlInput('', strtoupper($this->dataTomador[0]->emp_nombre), 'Tomador', 'form-control disabled', TRUE);
+$dataAseguradora = controlInput('', strtoupper($this->dataAsegurador[0]->par_value), 'Tomador', 'form-control disabled number', TRUE);
+
+
+//Editables
 $dataDo = controlInput('seg_do', $this->do, 'D.O', 'form-control disabled');
 $dataPesoBruto = controlInput('seg_peso_bruto', $this->pesoBruto, 'Peso bruto', 'form-control disabled');
 $dataObservaciones = controlInput('seg_observaciones', $this->observaciones, 'Observaciones', 'form-control disabled');
-$dataValor = controlInput('seg_valor', $this->tipoSeguro[0]->tip_seg_valor, 'Valor', 'form-control disabled', TRUE);
+$dataValor = controlInput('seg_valor_asegurado', NULL, 'Valor', 'form-control disabled');
 $dataFechaSalid = controlInput('seg_fecha_salida', $this->fechaSalida, 'Facha Salida', 'form-control disabled');
-$dataValorUsd = controlInput('seg_valor', round($this->tipoSeguro[0]->tip_seg_valor / $this->valorDolar, 2), 'Valor USD', 'form-control disabled', TRUE);
+$dataValorUsd = controlInput('seg_usd', NULL, 'Valor USD', 'form-control disabled', FALSE);
 
 
-//transportadora
-$dataTran = controlSelect($this->transpor, 'tra_id', 'tra_nombre');
+//Campos seleccionables
 $dataMer = controlSelect($this->claseMerc, 'cla_mer_id', 'cla_mer_nombre');
 $dataMedio = controlSelect($this->medioTran, 'med_tra_id', 'med_tra_nombre');
 $dataCiudad = controlSelect($this->ciudad, 'ciu_id', 'ciu_nombre');
+
+
+
+
+
+
+
 //atributos del formulario
 $dataAtributos = array(
     'class' => 'formulario'
@@ -135,13 +167,13 @@ echo form_open($Action, $dataAtributos);
         <!-- general form elements -->
         <div class="box box-default box-solid">
             <div class="box-header with-border">
-                <h3 class="box-title">Generadora</h3>
+                <h3 class="box-title"><?php echo $dataTitleBx1; ?></h3>
             </div><!-- /.box-header -->
             <div class="box-body">
                 <!-- text input -->
                 <div class="form-group">
-                    <label>Generador</label>
-                    <?php echo form_input($dataGenerador); ?>
+                    <label>Nombre</label>
+                    <?php echo form_input($dataInpNom); ?>
                 </div>
                 <!-- text input -->
                 <div class="form-group">
@@ -160,13 +192,13 @@ echo form_open($Action, $dataAtributos);
         <!-- general form elements -->
         <div class="box box-default box-solid">
             <div class="box-header with-border">
-                <h3 class="box-title">Tranportadora</h3>
+                <h3 class="box-title"><?php echo $dataTitleBx2; ?></h3>
             </div><!-- /.box-header -->
             <div class="box-body">
                 <!-- text input -->
                 <div class="form-group">
                     <label>Nombre</label>
-                    <?php echo form_dropdown('tra_id', $dataTran, NULL, 'class="form-control"'); ?>
+                    <?php echo $dataEmpR; ?>
                     <div class="clearfix"></div>
                 </div>
                 <!-- text input -->

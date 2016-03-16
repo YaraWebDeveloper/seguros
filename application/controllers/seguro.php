@@ -26,11 +26,13 @@ class Seguro extends Private_Controller {
             $valorAsegurado,
             $usd,
             $pesoBruto,
-            $transpor,
+            $empGene,
+            $empTranspor,
             $fechaSalida,
             $observaciones,
-            $tipoUsuario,
-            $valorDolar
+            $tipoEmpresa,
+            $valorDolar,
+            $dataEmpresa
 
     ;
 
@@ -50,18 +52,30 @@ class Seguro extends Private_Controller {
         $this->claseMerc = $this->obtenerData('accesorio_clase_mercancia');
         //Data Usuario
         $this->dataUsuario = $this->obtenerData('usuario', NULL, ['usu_id' => $this->user_id]);
+        //Obtener la empresa del usuario que esta entrando
+        $this->dataEmpresa = $this->obtenerData('empresa', NULL, ['emp_id' => $this->dataUsuario[0]->emp_id]);
+        //Conparacion de los datos de comparacion
+        $dataWhereTra = ['tip_seg_id' => 3, 'est_id' => 1]; //transportadora
+        $dataWhereGen = ['tip_seg_id' => 2, 'est_id' => 1]; //generadora
+        //Verficiarlos datos de la empresa
+        if ($this->dataEmpresa):
+            //Verificar que tipo de empresa es
+            if ($this->dataEmpresa[0]->tip_seg_id == 2): //generadora
+                $dataWhereGen = ['emp_id' => $this->dataUsuario[0]->emp_id];
+            else://Transportadora
+                $dataWhereTra = ['emp_id' => $this->dataUsuario[0]->emp_id];
+            endif;
+        endif;
         //data Tomador
-        $this->dataTomador = $this->obtenerData('empresa', NULL, ['emp_id' => $this->dataUsuario[0]->emp_id]);
-        //Tipo de usuario
-        $this->tipoUsuario = $this->obtenerData('accesorio_tipo_usuario', NULL, ['tip_usu_id' => $this->dataUsuario[0]->tip_usu_id]);
+        $this->dataTomador = $this->obtenerData('empresa', NULL, ['emp_id' => 1]);
+        //Generadoras
+        $this->empGene = $this->obtenerData('empresa', "concat_ws(' - ', emp_nit, emp_nombre ) as emp_nombre, emp_id", $dataWhereGen);
+        //Emp TRansportadora
+        $this->empTranspor = $this->obtenerData('empresa', " concat_ws( ' - ', emp_nit, emp_nombre ) as emp_nombre, emp_id", $dataWhereTra);
         //tipo seguro
-        $this->tipoSeguro = $this->obtenerData('accesorio_tipo_seguro', NULL, ['tip_seg_id' => $this->tipoUsuario[0]->tip_seg_id]);
+        $this->tipoSeguro = $this->obtenerData('accesorio_tipo_seguro', NULL, ['tip_seg_id' => $this->dataEmpresa[0]->tip_seg_id]);
         //Data Aseguradora
         $this->dataAsegurador = $this->obtenerData('accesorio_parametros', NULL, ['par_id =' => 1]);
-        //Data Transportadora
-        $this->transpor = $this->obtenerData('accesorio_transportadora');
-        //VAlor Dolar
-        $this->valorDolar = $this->obtenerData('accesorio_parametros', NULL, ['par_key' => 'val_dolar'])[0]->par_value;
     }
 
     /**
@@ -80,9 +94,23 @@ class Seguro extends Private_Controller {
      * Funcion para crear seguro
      */
     public function crearSeguro() {
+        $dataEmpGeneradora = $this->dataEmpresa[0]->emp_id;
+        $dataEmpTra = $this->input->post('emp_id_tran', TRUE);
+
+
+        if ($this->dataEmpresa[0]->tip_seg_id == 3):
+            $dataEmpGeneradora = $this->input->post('emp_id_gen', TRUE);
+            $dataEmpTra = $this->dataEmpresa[0]->emp_id;
+        endif;
+
+
+
         //Select
-        $nPoliza = sizeof($this->obtenerData('seguro')) + 1;
-        $nCerificado = uniqid('berk_');
+        $nPoliza = $this->obtenerData('accesorio_parametros', NULL, ['par_key' => 'val_poliza'])[0]->par_value;
+        //Ob tener datos para el certificado
+        
+        $nCerificado = (string) $this->dataEmpresa[0]->emp_siglas . "" . sizeof($this->obtenerData('seguro', NULL, ['emp_id_real' => $this->dataEmpresa[0]->emp_id]));
+        //$nCerificado = uniqid('berk_');
         //Funcion para generar seguro
         $arrayCreacion = [
             'seg_fecha_creacion' => date('Y-m-d H:i:s'),
@@ -90,21 +118,21 @@ class Seguro extends Private_Controller {
             'seg_poliza' => $nPoliza,
             'seg_certificado' => $nCerificado,
             'seg_do' => $this->input->post('seg_do'),
-            'seg_valor_asegurado' => $this->tipoSeguro[0]->tip_seg_valor,
-            'seg_usd' => round($this->tipoSeguro[0]->tip_seg_valor / $this->valorDolar, 2),
+            'seg_valor_asegurado' => $this->input->post('seg_valor_asegurado'),
+            'seg_usd' => $this->input->post('seg_usd'),
             'seg_observaciones' => $this->input->post('seg_observaciones'),
             'cla_mer_id' => $this->input->post('cla_mer_id'),
             'ciu_id_origen' => $this->input->post('ciu_id_origen'),
             'ciu_id_destino' => $this->input->post('ciu_id_destino'),
             'med_tra_id' => $this->input->post('med_tra_id'),
-            'emp_id' => $this->input->post('med_tra_id'),
+            'emp_id_gen' => $dataEmpGeneradora,
             'med_tra_id' => $this->dataTomador[0]->emp_id,
-            'est_id' => 1,
             'est_id' => 1,
             'tip_seg_id' => $this->tipoSeguro[0]->tip_seg_id,
             'usu_id' => $this->user_id,
-            'tra_id' => $this->input->post('tra_id'),
-            'seg_peso_bruto' => $this->input->post('seg_peso_bruto')
+            'emp_id_tran' => $dataEmpTra,
+            'seg_peso_bruto' => $this->input->post('seg_peso_bruto'),
+            'emp_id_real' => $this->dataEmpresa[0]->emp_id
         ];
         //Agregar al crud model
         if ($this->crud_model->agregarRegistro('seguro', $arrayCreacion)):
